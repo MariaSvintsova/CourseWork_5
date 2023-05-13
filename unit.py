@@ -16,7 +16,7 @@ class BaseUnit(ABC):
         """
         self.name: str = name
         self.unit_class = unit_class
-        self.hp: float = unit_class.max_health
+        self.hp = unit_class.max_health
         self.stamina: float = unit_class.max_stamina
         self.weapon: Weapon = Equipment().get_weapon(weapon_name='топорик')
         self.armor: Armor = Equipment().get_armor(armor_name='панцирь')
@@ -84,8 +84,9 @@ class BaseUnit(ABC):
         """
         if self._is_skill_used:
             return 'Навык использован'
-        self._is_skill_used = True
-        return self.unit_class.skill.use(user=self, target=target)
+        if self.unit_class.skill._is_stamina_enough:
+            self._is_skill_used = True
+            return self.unit_class.skill.use(user=self, target=target)
 
 
 class PlayerUnit(BaseUnit):
