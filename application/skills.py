@@ -2,8 +2,10 @@ from __future__ import annotations
 from abc import ABC, abstractmethod
 from typing import TYPE_CHECKING
 
+
 if TYPE_CHECKING:
     from unit import BaseUnit
+
 
 class Skill(ABC):
     """
@@ -65,9 +67,8 @@ class FireKick(Skill):
 
     @property
     def _is_stamina_enough(self) -> bool:
-        return self.user.stamina > self.stamina
+        return self.user.stamina > self._stamina
 
-    @property
     def use(self, user: BaseUnit, target: BaseUnit) -> str:
         """
         Проверка, достаточно ли выносливости у игрока для применения умения.
@@ -79,8 +80,6 @@ class FireKick(Skill):
             return self.skill_effect()
         return f"{self.user.name} попытался использовать {self.name}, но у него не хватило выносливости."
 
-
-
     def skill_effect(self) -> str:
         # TODO логика использования скилла -> return str
         # TODO в классе нам доступны экземпляры user и target - можно использовать любые их методы
@@ -91,11 +90,12 @@ class FireKick(Skill):
         self.target.hp -= self.damage
         return f"{self.user.name} воспользовался {self.name} и нанес урон {self.target.name} в размере {self.damage} "
 
+
 class LightningShot(Skill):
+
     _name: str = "Молниеносный выстрел"
     _stamina: float = 5
     _damage: float = 15
-
 
     @property
     def name(self) -> str:
@@ -113,7 +113,6 @@ class LightningShot(Skill):
     def _is_stamina_enough(self) -> bool:
         return self.user.stamina > self.stamina
 
-    @property
     def use(self, user: BaseUnit, target: BaseUnit) -> str:
         """
         Проверка, достаточно ли выносливости у игрока для применения умения.
@@ -125,13 +124,7 @@ class LightningShot(Skill):
             return self.skill_effect()
         return f"{self.user.name} попытался использовать {self.name}, но у него не хватило выносливости."
 
-
     def skill_effect(self):
         self.user.stamina -= self.stamina
         self.target.hp -= self.damage
         return f"{self.user.name} воспользовался {self.name} и нанес урон {self.target.name} в размере {self.damage} "
-
-
-        # if self.user.stamina >= 0:
-
-

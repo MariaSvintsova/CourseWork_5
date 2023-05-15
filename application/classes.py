@@ -1,6 +1,6 @@
 from marshmallow_dataclass import dataclass
 
-from skills import Skill
+from skills import Skill, LightningShot, FireKick
 
 
 @dataclass
@@ -21,7 +21,7 @@ WarriorClass = UnitClass(
     attack=0.8,
     stamina=0.9,
     armor=1.2,
-    skill='Свирепый пинок'
+    skill=FireKick()
 )  # TODO Инициализируем экземпляр класса UnitClass и присваиваем ему необходимые значения аттрибуотов
 
 ThiefClass = UnitClass(
@@ -31,7 +31,7 @@ ThiefClass = UnitClass(
     attack=1.5,
     stamina=1.2,
     armor=1.0,
-    skill='Мощный укол'
+    skill=LightningShot()
 )    # TODO действуем так же как и с войном
 
 unit_classes = {

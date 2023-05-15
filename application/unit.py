@@ -1,7 +1,7 @@
 from __future__ import annotations
 from abc import ABC, abstractmethod
-from equipment import Equipment, Weapon, Armor
-from classes import UnitClass
+from application.equipment import Equipment, Weapon, Armor
+from application.classes import UnitClass
 from random import randint
 from typing import Optional
 
@@ -54,8 +54,7 @@ class BaseUnit(ABC):
             target.stamina -= target.armor.stamina_per_turn * target.unit_class.stamina
             weapon_damage -= target.armor.defence * target.unit_class.attack
 
-        target.get_damage(damage=weapon_damage)
-        return weapon_damage
+        return target.get_damage(damage=weapon_damage)
 
     def get_damage(self, damage: int) -> Optional[int]:
         # TODO получение урона целью
@@ -64,7 +63,6 @@ class BaseUnit(ABC):
             self.hp -= damage
             return round(damage, 1)
         return None
-
 
     @abstractmethod
     def hit(self, target: BaseUnit) -> str:
@@ -84,9 +82,8 @@ class BaseUnit(ABC):
         """
         if self._is_skill_used:
             return 'Навык использован'
-        if self.unit_class.skill._is_stamina_enough:
-            self._is_skill_used = True
-            return self.unit_class.skill.use(user=self, target=target)
+        self._is_skill_used = True
+        return self.unit_class.skill.use(user=self, target=target)
 
 
 class PlayerUnit(BaseUnit):
@@ -105,6 +102,7 @@ class PlayerUnit(BaseUnit):
                 return f"{self.name} используя {self.weapon.name} пробивает {target.armor.name} соперника и наносит {damage} урона."
             return f"{self.name} используя {self.weapon.name} наносит удар, но {target.armor.name} cоперника его останавливает."
         return f"{self.name} попытался использовать {self.weapon.name}, но у него не хватило выносливости."
+
 
 class EnemyUnit(BaseUnit):
 
@@ -128,5 +126,3 @@ class EnemyUnit(BaseUnit):
         else:
             damage = self._count_damage(target)
             return f"{self.name} используя {self.weapon.name} пробивает {target.armor.name} и наносит Вам {damage} урона."
-
-

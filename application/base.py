@@ -1,5 +1,6 @@
 from unit import BaseUnit
 
+
 class BaseSingleton(type):
     _instances = {}
 
@@ -25,8 +26,6 @@ class Arena(metaclass=BaseSingleton):
         self.enemy = enemy
         self.game_is_running = True
 
-
-
     def _check_players_hp(self):
         # TODO ПРОВЕРКА ЗДОРОВЬЯ ИГРОКА И ВРАГА
         # TODO проверка здоровья игрока и врага и возвращение результата строкой:
@@ -43,8 +42,6 @@ class Arena(metaclass=BaseSingleton):
         if self.enemy.hp < 0:
             self.battle_result = 'You are the winner!'
             return self._end_game()
-
-
 
     def _stamina_regeneration(self):
         # TODO регенерация здоровья и стамины для игрока и врага за ход
@@ -68,7 +65,7 @@ class Arena(metaclass=BaseSingleton):
             return result
         if self.game_is_running:
             self._stamina_regeneration()
-            self.enemy.hit(self.player)
+            return self.enemy.hit(self.player)
 
     def _end_game(self) -> str:
         # TODO КНОПКА ЗАВЕРШЕНИЕ ИГРЫ - > return result: str
@@ -79,7 +76,6 @@ class Arena(metaclass=BaseSingleton):
         self.game_is_running = False
         return self.battle_result
 
-
     def player_hit(self) -> str:
         # TODO КНОПКА УДАР ИГРОКА -> return result: str
         # TODO получаем результат от функции self.player.hit
@@ -88,7 +84,6 @@ class Arena(metaclass=BaseSingleton):
         result = self.player.hit(self.enemy)
         self.next_turn()
         return result
-
 
     def player_use_skill(self):
         # TODO КНОПКА ИГРОК ИСПОЛЬЗУЕТ УМЕНИЕ
